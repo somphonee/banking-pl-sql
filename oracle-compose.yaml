@@ -1,0 +1,76 @@
+version: '3.1'
+
+services:
+  oracle:
+    image: gvenzl/oracle-xe:latest
+    container_name: oracle-xe
+    restart: unless-stopped
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    environment:
+      ORACLE_PASSWORD: root
+      ORACLE_CHARACTERSET: AL32UTF8  # Set character encoding
+      TZ: Asia/Vientiane  # Set Lao time zone
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "sqlplus", "-L", "system/root@//localhost:1521/XEPDB1", "exit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  oracle-data:
+    driver: local
+
+
+
+
+
+
+# 1
+# docker exec -it oracle-xe sqlplus system/root@localhost:1521/XEPDB1
+# 2
+# SELECT name FROM v$services;
+
+# 3
+# docker exec -it oracle-xe lsnrctl status
+# 4
+# docker exec -it oracle-xe lsnrctl reload
+# 5
+# docker restart oracle-xe
+
+
+
+
+
+
+
+
+
+        # 1
+        # docker exec -it oracle_xe lsnrctl status
+        #  2
+        #docker exec -it oracle_xe lsnrctl reload
+        # 3
+        # docker exec -it oracle_xe cat $ORACLE_HOME/network/admin/tnsnames.ora
+        # 4
+        # docker exec -it oracle_xe sqlplus sys/oracle@ORCL as sysdba 
+        # SQL> SELECT INSTANCE_NAME, STATUS FROM V$INSTANCE;
+        # 5
+        # docker logs oracle_xe
+
+
+      
+# SELECT sessiontimezone, current_timestamp FROM dual;
+# SELECT sessiontimezone, current_timestamp FROM dual;
+# ALTER DATABASE SET TIME_ZONE = 'Asia/Vientiane';
+# docker exec -it oracle-xe date
+
+
+
+
+
+      
+
